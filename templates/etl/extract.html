@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETL</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            background-color: #edeec9;
+            color: black;
+            font-family: Arial, sans-serif;
+        }
+
+        main{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .left{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #bfd8bd;    
+            flex-direction: column;
+            height: 95vh;         
+            margin: 0 0 0 30px;
+            border-radius: 10px;
+        }
+        
+        .right{
+            padding: 30px;
+            margin: 0 30px 0 30px;
+            background-color: #bfd8bd;      
+            height: 95vh;    
+            border-radius: 10px;     
+            min-width: 50vw;
+        }
+        
+        form{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-width: 20vw;
+        }
+
+        .entries{
+            height: 37vh;
+            overflow-y: scroll;
+            margin: 20px 0 0 0;
+            border-radius: 10px;
+        }
+
+        button{
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #98c9a3;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button:hover{
+            background-color: #77bfa3;
+        }
+
+        .entry{
+            padding: 10px;
+            margin: 10px;
+            background-color: #77bfa3;
+            border-radius: 5px;
+        }
+
+        a{
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #98c9a3;
+            text-decoration: none;
+            color: black;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        a:hover{
+            background-color: #77bfa3;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="left">
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="extract_data">Extract and Load Data from API</button>
+                {% if fetch_data.len_campaign_data %}
+                    {{fetch_data.len_campaign_data }} rows fetched of camplaign data! <br>
+                {% endif %}
+                {% if fetch_data.len_lead_data %}
+                    {{fetch_data.len_lead_data }} rows fetched of lead data!
+                {% endif %}
+                <button type="submit" name="transform_data">Transform Data and save in DB</button>
+                <a href="/clear_db">Clear DB</a>
+                <a href="/reporting-home">Download Data</a>
+            </form>
+        </div>
+        <div class="right">
+            <h3>Lead Data in Database</h3>
+            {% if db_data.lead_data %}
+                <div class="entries">
+                    {% for data in db_data.lead_data %}
+                        <div class="entry">
+                            <p>Lead ID: {{ data.lead_id }}</p>
+                            <p>Lead Name: {{ data.lead_name }}</p>
+                            <p>Lead Email: {{ data.lead_email }}</p>
+                            <p>Lead Phone: {{ data.lead_phone }}</p>
+                            <p>Lead Source: {{ data.lead_source }}</p>
+                            <p>Lead Stage: {{ data.lead_stage }}</p>
+                            <p>Date of Inquiry: {{ data.date_of_inquiry }}</p>
+                            <p>Campaign ID: {{ data.campaign_id }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if not db_data.lead_data %}
+                No Lead Data
+            {% endif %}
+            <br>
+            <br>
+            <h3>Campaign Data in Database</h3>
+            {% if db_data.campaign_data %}    
+                <div class="entries">
+                    {% for data in db_data.campaign_data %}
+                        <div class="entry">
+                            <p>Campaign ID: {{ data.campaign_id }}</p>
+                            <p>Campaign Name: {{ data.campaign_name }}</p>
+                            <p>Start Date: {{ data.start_date }}</p>
+                            <p>End Date: {{ data.end_date }}</p>
+                            <p>Campaign Budget: {{ data.campaign_budget }}</p>
+                            <p>Leads Generated: {{ data.leads_generated }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if not db_data.campaign_data %}
+                No Campaign Data
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>
