@@ -61,8 +61,15 @@ This assignment simulates data fetching from CRM and marketing platforms, includ
 
 ## Email Functionality
 
-Since to send mails we need OAuth password and a host mail address, so you can add your creds in `creds.py` file in root directory.
-Also since I have not build the user login/signin functionality, you need to give your email address for recieving mail. (make sure it is different from the host mail)
+Since to send mails we need OAuth password and a host email address, so you can add your creds in `.env` file by creating it in root directory.
+Also since I have not build the user login/signin functionality, you need to give your email address for recieving mail. (make sure it is different from the host email)
+
+You must add these lines:
+```
+RECEIVER_MAIL = 'your.email@gmail.com'
+HOST_MAIL = 'host.email@gmail.com'
+HOST_PASSWORD = 'OAuth Password for SMTP'
+```
 
 This is how a mail will look like:
 ![Mail Screenshot](static/assets/mail_example.png)

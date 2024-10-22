@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect
 from etl.utils import *
-from creds import reciever_mail
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def index(request):
     return render(request, "etl/index.html")
+
 
 def clear_db(request):
     if CampaignData.objects.exists():
@@ -30,7 +34,8 @@ def etl(request):
                 add_campaign_data(campaign_data)
             if lead_data:
                 add_lead_data(lead_data)
-            send_mail(reciever_mail)
+            receiver_mail = os.environ.get("RECEIVER_MAIL")
+            send_mail(receiver_mail)
 
     db_data = {
         "campaign_data": CampaignData.objects.all(),
@@ -38,8 +43,8 @@ def etl(request):
     }
 
     fetch_data = {
-        "len_campaign_data": len(campaign_data) if len(campaign_data)!= 0 else None,
-        "len_lead_data": len(lead_data) if len(lead_data)!= 0 else None,
+        "len_campaign_data": len(campaign_data) if len(campaign_data) != 0 else None,
+        "len_lead_data": len(lead_data) if len(lead_data) != 0 else None,
     }
 
     return render(

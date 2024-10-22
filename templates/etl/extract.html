@@ -107,10 +107,13 @@
                 {% if fetch_data.len_lead_data %}
                     {{fetch_data.len_lead_data }} rows fetched of lead data!
                 {% endif %}
-                <button type="submit" name="transform_data">Transform Data and save in DB</button>
-                <a href="/clear_db">Clear DB</a>
-                <a href="/reporting-home">Download Data</a>
             </form>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="transform_data">Transform Data and save in DB</button>
+            </form>
+            <a href="/clear_db">Clear DB</a>
+            <a href="/reporting-home">Download Data</a>
         </div>
         <div class="right">
             <h3>Lead Data in Database</h3>
