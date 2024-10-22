@@ -15,7 +15,7 @@ def fetch_campaign_data():
     Return: campaign_data (list): List of dictionaries containing campaign data.
     """
 
-    campaign_data_response = requests.get("http://127.0.0.1:8000/fetch_campaign_data")
+    campaign_data_response = requests.get("http://127.0.0.1:8000/api/fetch_campaign_data")
 
     if campaign_data_response.status_code == 200:
         campaign_data = campaign_data_response.json()["data"]
@@ -53,7 +53,7 @@ def fetch_lead_data():
     Args: None
     Return: lead_data (list): List of dictionaries containing lead data.
     """
-    lead_data_response = requests.get("http://127.0.0.1:8000/fetch_lead_data")
+    lead_data_response = requests.get("http://127.0.0.1:8000/api/fetch_lead_data")
 
     if lead_data_response.status_code == 200:
         lead_data = lead_data_response.json()["data"]
